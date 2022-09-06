@@ -1,0 +1,15 @@
+{
+    "name": "proyphp/blog",
+    "autoload": {
+        "psr-4": {
+            "Proyphp\\Blog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "lrios2097",
+            "email": "luisr2097@gmail.com"
+        }
+    ],
+    "require": {}
+}
