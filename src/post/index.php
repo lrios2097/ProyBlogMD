@@ -13,7 +13,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Mi primer post</h1>
+    
     <?php
         
         echo $post->getContent();

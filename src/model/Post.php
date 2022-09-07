@@ -1,7 +1,7 @@
 <?php
 // si vamos a utilizar namespace, este archivo debe llevar mayuscula en la primera letra
 namespace Proyphp\Blog\model;
-
+use League\CommonMark\CommonMarkConverter;
 use Error;
 
 class Post{
@@ -12,16 +12,19 @@ class Post{
     }
 
     public function getContent(){
+        $converter = new CommonMarkConverter(['html_input' => 'escape', 'allow_unsafe_links' => false]); // SAle error por la librería, pero funciona bien 1:34:52
+        
+
         if(file_exists($this->getFileName())){
         $stream=fopen($this->getFileName(), 'r'); //permite generar un string basado en la direccion del archivo
         $content = fread($stream, filesize($this->getFileName()));
-        return nl2br($content); //fx para que aprezcan los saltos de linea archivos md
+        return $converter->convert($content);  //fx para que aprezcan los saltos de linea archivos md
         }else{
             $this->getFileNameWithoutDash();
             if(file_exists($this->getFileName())){
             $stream=fopen($this->getFileName(), 'r');
             $content = fread($stream, filesize($this->getFileName()));
-            return nl2br($content);
+            return $converter->convert($content);;
             }
         }
         throw new Error('File does not exist');
@@ -54,7 +57,7 @@ class Post{
     //Con esta f modifico la utl para que tengo _ en los " "
     public function getUrl(){
         $url = substr($this->file, 0 , strpos($this->file, '.md')); // busco el nombre del archivo sin la extencion
-        $title = str_replace(' ', '-', $url); // esto es para evitar que los espacios salgan como %20
+        $title = str_replace(' ', '-', $url); // esto es para evitar que los espacios salgan como %20%
         return "http://localhost/Proyectosphp/ProyBlog/?post={$title}";
     }
 
